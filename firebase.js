@@ -19,3 +19,31 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+// Obtiene una referencia al formulario de inicio de sesión
+var loginForm = document.getElementById("loginForm");
+  
+// Agrega un listener al formulario de inicio de sesión
+loginForm.addEventListener("submit", function(event) {
+  event.preventDefault(); // Evita el envío del formulario
+
+  // Obtiene los valores de los campos de correo electrónico y contraseña
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+
+  // Inicia sesión con Firebase
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function(userCredential) {
+      // Inicio de sesión exitoso
+      var user = userCredential.user;
+      console.log("Inicio de sesión exitoso:", user);
+      // Aquí puedes redirigir al usuario a otra página o realizar otras acciones
+    })
+    .catch(function(error) {
+      // Error en el inicio de sesión
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.error("Error en el inicio de sesión:", errorCode, errorMessage);
+      // Aquí puedes mostrar un mensaje de error al usuario
+    });
+});
